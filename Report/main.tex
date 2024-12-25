@@ -1,0 +1,114 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\usepackage{booktabs}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{multirow}
+\usepackage{float}
+% \usepackage[margin=1in]{geometry}
+
+\title{Benchmark Report for memFS (CL Project)}
+\author{
+      Gana Jayant Sigadam \\
+      Roll No: 24CS60R12 \\
+}
+
+\begin{document}
+\maketitle
+
+\section{Benchmarking Setup}
+
+\noindent The benchmarking tests for MemFS were conducted using the following workloads:
+\begin{itemize}
+    \item \textbf{Workload 100}: 100 operations each of Create, Write, Read, Delete.
+    \item \textbf{Workload 1000}: 1000 operations each of Create, Write, Read, Delete.
+    \item \textbf{Workload 10000}: 10000 operations each of Create, Write, Read, Delete.
+\end{itemize}
+
+\noindent Tests were run with thread counts of 1, 2, 4, 8, and 16, and the following metrics were measured:
+\begin{itemize}
+    \item Time per operation (Create, Write, Read, Delete)
+    \item CPU Utilization
+    \item Memory Usage
+\end{itemize}
+
+
+\section{Measuring Performance}
+So for measuring the latency of the operations, I have used the \texttt{std::chrono} library in C++ to measure the time taken by each operation. The CPU Utilization was measured using \texttt{/proc/stat} file in Linux which gives user, nice, system, idle, iowait, irq, softirq, steal jiffies. The CPU Utilization is calculated as follows:
+we need to calculate the total jiffies and work jiffies for the start and end of the operation. The CPU Utilization is calculated as follows:
+\[
+\text{CPU Utilization} = \frac{\text{work jiffies}_{\text{end}} - \text{work jiffies}_{\text{start}}}{\text{total jiffies}_{\text{end}} - \text{total jiffies}_{\text{start}}} \times 100
+\]
+
+where work jiffies is calculated as follows:
+\[
+\text{work jiffies} = \text{user} + \text{nice} + \text{system}
+\]
+
+and total jiffies is calculated as follows:
+\[
+\text{total jiffies} = \text{user} + \text{nice} + \text{system} + \text{idle} + \text{iowait} + \text{irq} + \text{softirq} + \text{steal}
+\]
+
+\noindent I have referred to the following link for the calculation of CPU Utilization \href{https://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux}{StackOverflow Link}
+
+\section{Performance Benchmarking Results}
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Performance Metrics Across Thread Counts and Workloads}
+    \begin{tabular}{cccccccc}
+    \toprule
+    Threads & Workload & \begin{tabular}[c]{@{}c@{}}Create\\(ms)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Write\\(ms)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Read\\(ms)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Delete\\(ms)\end{tabular} & \begin{tabular}[c]{@{}c@{}}CPU\\Util (\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Memory\\(KB)\end{tabular} \\
+    \midrule
+    \multirow{3}{*}{1} & 100 & 15 & 10 & 30 & 6 & 18.03 & 6732 \\
+     & 1000 & 22 & 10 & 33 & 24 & 15.91 & 7172 \\
+     & 10000 & 22 & 14 & 34 & 6 & 18.42 & 7300 \\
+     \midrule
+
+    \multirow{3}{*}{2} & 100 & 29 & 18 & 35 & 10 & 17.78 & 7804 \\
+     & 1000 & 31 & 19 & 39 & 10 & 14.74 & 7932 \\
+     & 10000 & 29 & 20 & 33 & 10 & 17.05 & 7932 \\
+     \midrule
+
+    \multirow{3}{*}{4} & 100 & 38 & 23 & 31 & 16 & 21.15 & 8572 \\
+        & 1000 & 36 & 24 & 33 & 16 & 20.39 & 8572 \\
+        & 10000 & 37 & 23 & 34 & 16 & 18.18 & 8572 \\
+        \midrule
+
+    \multirow{3}{*}{8} & 100 & 42 & 25 & 31 & 18 & 27.45 & 9084 \\
+        & 1000 & 42 & 26 & 32 & 30 & 25.86 & 9084 \\
+        & 10000 & 41 & 26 & 33 & 19 & 30.19 & 9084 \\
+        \midrule
+
+    \multirow{3}{*}{16} & 100 & 43 & 26 & 32 & 20 & 39.81 & 9724 \\
+        & 1000 & 37 & 27 & 32 & 20 & 38.68 & 9724 \\
+        & 10000 & 45 & 25 & 34 & 20 & 40.18 & 9724 \\
+    \midrule
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent This benchmarking is done in a system which contains 10 hardware threads.
+
+\section{Performance Analysis}
+\begin{itemize}
+    \item Create operation takes the most time among all the multi-threaded operations because it needs to allocate File object in the hashmap tree. note read is not a multi-threaded operation.
+    \item Multi-threading is really helpful for larger workloads as it reduces the time taken for the operations. Example for 16 threads, the time taken for 10000 write operations is 25ms which is less compared to 1000 write operations which is 26ms. But it is very small difference.
+    \item Read operation takes same time across different workloads because it is not a multi-threaded operation.
+    \item CPU Utilization is increasing with the increase in the number of threads because more threads are running in parallel.
+\end{itemize}
+\end{document}

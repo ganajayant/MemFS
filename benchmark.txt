@@ -1,0 +1,120 @@
+Benchmarking with 1 threads and 100 work load
+Create: 15ms
+Write: 10ms
+Read: 30ms
+Delete: 6ms
+CPU Utilization: 18.0328%
+Memory Usage: 6732KB
+
+Benchmarking with 1 threads and 1000 work load
+Create: 22ms
+Write: 10ms
+Read: 33ms
+Delete: 24ms
+CPU Utilization: 15.9091%
+Memory Usage: 7172KB
+
+Benchmarking with 1 threads and 10000 work load
+Create: 22ms
+Write: 14ms
+Read: 34ms
+Delete: 6ms
+CPU Utilization: 18.4211%
+Memory Usage: 7300KB
+
+Benchmarking with 2 threads and 100 work load
+Create: 29ms
+Write: 18ms
+Read: 35ms
+Delete: 10ms
+CPU Utilization: 17.7778%
+Memory Usage: 7804KB
+
+Benchmarking with 2 threads and 1000 work load
+Create: 31ms
+Write: 19ms
+Read: 39ms
+Delete: 10ms
+CPU Utilization: 14.7368%
+Memory Usage: 7932KB
+
+Benchmarking with 2 threads and 10000 work load
+Create: 29ms
+Write: 20ms
+Read: 33ms
+Delete: 10ms
+CPU Utilization: 17.0455%
+Memory Usage: 7932KB
+
+Benchmarking with 4 threads and 100 work load
+Create: 38ms
+Write: 23ms
+Read: 31ms
+Delete: 16ms
+CPU Utilization: 21.1538%
+Memory Usage: 8572KB
+
+Benchmarking with 4 threads and 1000 work load
+Create: 36ms
+Write: 24ms
+Read: 33ms
+Delete: 16ms
+CPU Utilization: 20.3883%
+Memory Usage: 8572KB
+
+Benchmarking with 4 threads and 10000 work load
+Create: 37ms
+Write: 23ms
+Read: 34ms
+Delete: 16ms
+CPU Utilization: 18.1818%
+Memory Usage: 8572KB
+
+Benchmarking with 8 threads and 100 work load
+Create: 42ms
+Write: 25ms
+Read: 31ms
+Delete: 18ms
+CPU Utilization: 27.451%
+Memory Usage: 9084KB
+
+Benchmarking with 8 threads and 1000 work load
+Create: 42ms
+Write: 26ms
+Read: 32ms
+Delete: 30ms
+CPU Utilization: 25.8621%
+Memory Usage: 9084KB
+
+Benchmarking with 8 threads and 10000 work load
+Create: 41ms
+Write: 26ms
+Read: 33ms
+Delete: 19ms
+CPU Utilization: 30.1887%
+Memory Usage: 9084KB
+
+Benchmarking with 16 threads and 100 work load
+Create: 43ms
+Write: 26ms
+Read: 32ms
+Delete: 20ms
+CPU Utilization: 39.8148%
+Memory Usage: 9724KB
+
+Benchmarking with 16 threads and 1000 work load
+Create: 37ms
+Write: 27ms
+Read: 32ms
+Delete: 20ms
+CPU Utilization: 38.6792%
+Memory Usage: 9724KB
+
+Benchmarking with 16 threads and 10000 work load
+Create: 45ms
+Write: 25ms
+Read: 34ms
+Delete: 20ms
+CPU Utilization: 40.1786%
+Memory Usage: 9724KB
+

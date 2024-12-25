@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  ubuntu:
+    container_name: ubuntu-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace:delegated # Mount current directory to /workspace in the container
+    working_dir: /workspace # Set the working directory inside the container to /workspace
+    stdin_open: true # Keep stdin open for interactive mode
+    tty: true # Allocate a pseudo-TTY
+    environment:
+      - DEBIAN_FRONTEND=noninteractive # Prevent prompts during installation
